@@ -2318,7 +2318,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "CafeOS")
     target_include_directories(${PROJECT_NAME} PRIVATE
         ${DEVKITPRO}/portlibs/wiiu/include/
     )
-else()
+elseif(CMAKE_SYSTEM_NAME MATCHES "(Free|Net|Open)BSD")
     find_package(SDL2)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
@@ -2327,16 +2327,21 @@ else()
         "ZAPDUtils;"
 	${CMAKE_DL_LIBS}
 	Threads::Threads
+        SDL2
+	"$<$<BOOL:${BUILD_CROWD_CONTROL}>:SDL2_net"
 	)
-	if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD|NetBSD|OpenBSD")
-	    set(ADDITIONAL_LIBRARY_DEPENDENCIES ${ADDITIONAL_LIBRARY_DEPENDENCIES}
-	    SDL2
-	    "$<$<BOOL:${BUILD_CROWD_CONTROL}>:SDL2_net"
-	else()
-	    set(ADDITIONAL_LIBRARY_DEPENDENCIES ${ADDITIONAL_LIBRARY_DEPENDENCIES}
-	    SDL2::SDL2
-            "$<$<BOOL:${BUILD_CROWD_CONTROL}>:SDL2_net::SDL2_net>"
-	endif()
+else()	
+    find_package(SDL2)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
+ 	set(ADDITIONAL_LIBRARY_DEPENDENCIES
+        "libultraship;"
+        "ZAPDUtils;"
+	${CMAKE_DL_LIBS}
+	Threads::Threads
+        SDL2::SDL2
+        "$<$<BOOL:${BUILD_CROWD_CONTROL}>:SDL2_net::SDL2_net>"
+        )
 endif()
 
 if(NOT CMAKE_SYSTEM_NAME MATCHES "NintendoSwitch|CafeOS")
