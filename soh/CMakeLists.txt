@@ -64,6 +64,21 @@ if(MSVC)
     set(CMAKE_STATIC_LINKER_FLAGS_RELEASE "${CMAKE_STATIC_LINKER_FLAGS}")
 endif()
 
+if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD|NetBSD|OpenBSD")
+    set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};/usr/local")
+    set(CMAKE_REQUIRED_INCLUDES "/usr/local/include")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
+        if(CMAKE_SYSTEM_NAME MATCHES "OpenBSD")
+  	    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/X11R6/lib")
+  	    set(CMAKE_REQUIRED_INCLUDES "${CMAKE_REQUIRED_INCLUDES} /usr/X11R6/include")
+        endif()
+    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 14.0)
+      # Workaround: the llvm libc++ and versions of clang eariler than 14 have a bug with consteval
+      # so we define FMT_CONSTEVAL to blank to just disable consteval in fmt
+      add_definitions(-DFMT_CONSTEVAL=)
+    endif()
+endif()
+
 ################################################################################
 # Common utils
 ################################################################################
@@ -1972,8 +1987,8 @@ if (BUILD_CROWD_CONTROL)
 endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE assets
-	${CMAKE_CURRENT_SOURCE_DIR}/include/
-	${CMAKE_CURRENT_SOURCE_DIR}/src/
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/
     ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship
     ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/src/binarytools
@@ -1989,16 +2004,16 @@ target_include_directories(${PROJECT_NAME} PRIVATE assets
     ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/extern/Mercury
     ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/extern/tinyxml2
     ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/libultraship/Lib/
-	${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/libultraship/Lib/libjpeg/include/
-	${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/libultraship/Lib/spdlog/include/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/libultraship/Lib/libjpeg/include/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/libultraship/Lib/spdlog/include/
     ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/src/graphic/Fast3D/U64/PR
     ${CMAKE_CURRENT_SOURCE_DIR}/../libultraship/src/graphic
-	${CMAKE_CURRENT_SOURCE_DIR}/../ZAPDTR/ZAPDUtils
+    ${CMAKE_CURRENT_SOURCE_DIR}/../ZAPDTR/ZAPDUtils
     ${CMAKE_CURRENT_SOURCE_DIR}/../ZAPDTR/ZAPD/resource/type
-	${SDL2-INCLUDE}
+    ${SDL2-INCLUDE}
     ${SDL2-NET-INCLUDE}
     ${BOOST-INCLUDE}
-	${CMAKE_CURRENT_SOURCE_DIR}/assets/
+    ${CMAKE_CURRENT_SOURCE_DIR}/assets/
 	.
 )
 
@@ -2310,10 +2325,15 @@ else()
  	set(ADDITIONAL_LIBRARY_DEPENDENCIES
         "libultraship;"
         "ZAPDUtils;"
-		SDL2::SDL2
-        "$<$<BOOL:${BUILD_CROWD_CONTROL}>:SDL2_net::SDL2_net>"
-		${CMAKE_DL_LIBS}
-		Threads::Threads
+	if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD|NetBSD|OpenBSD")
+	    SDL2
+	    "$<$<BOOL:${BUILD_CROWD_CONTROL}>:SDL2_net"
+	else()
+	    SDL2::SDL2
+            "$<$<BOOL:${BUILD_CROWD_CONTROL}>:SDL2_net::SDL2_net>"
+	endif()
+	${CMAKE_DL_LIBS}
+	Threads::Threads
 	)
 endif()
 
