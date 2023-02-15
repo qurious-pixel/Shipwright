@@ -2328,7 +2328,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "(Free|Net|Open)BSD")
 	${CMAKE_DL_LIBS}
 	Threads::Threads
         SDL2
-	"$<$<BOOL:${BUILD_CROWD_CONTROL}>:SDL2_net"
+	"$<$<BOOL:${BUILD_CROWD_CONTROL}>:SDL2_net>"
 	)
 else()	
     find_package(SDL2)
