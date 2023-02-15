@@ -70,7 +70,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD|NetBSD|OpenBSD")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
         if(CMAKE_SYSTEM_NAME MATCHES "OpenBSD")
   	    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/X11R6/lib")
-  	    set(CMAKE_REQUIRED_INCLUDES "${CMAKE_REQUIRED_INCLUDES} /usr/X11R6/include")
+  	    set(CMAKE_CXX_FLAGS "-I/usr/X11R6/include")
         endif()
     if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 14.0)
       # Workaround: the llvm libc++ and versions of clang eariler than 14 have a bug with consteval
