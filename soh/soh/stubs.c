@@ -358,7 +358,11 @@ void __osCleanupThread(void)
 
 }
 
+#ifdef __OpenBSD__
+s32 _Printf(PrintCallback a, void* arg, const char* fmt, __va_list ap) {
+#else
 s32 _Printf(PrintCallback a, void* arg, const char* fmt, va_list ap) {
+#endif
     unsigned char buffer[4096];
 
     vsnprintf(buffer, sizeof(buffer), fmt, ap);
