@@ -61,6 +61,9 @@
 #include <port/wiiu/WiiUImpl.h>
 #endif
 
+#ifdef __OpenBSD__
+#define NULL __null
+#endif
 
 #include "Enhancements/custom-message/CustomMessageTypes.h"
 #include <functions.h>
