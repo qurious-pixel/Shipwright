@@ -3,6 +3,8 @@
 #ifndef __SWITCH__
 #ifdef __WIIU__
 void _assert(const char* exp, const char* file, s32 line) {
+#elif defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
+void __assert(const char* exp, int line, const char* file) {
 #else
 void __assert(const char* exp, const char* file, s32 line) {
 #endif
