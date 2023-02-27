@@ -67,8 +67,10 @@ u32 Locale_IsRegionNative(void);
 void _assert(const char* exp, const char* file, s32 line);
 #elif defined(__linux__)
 void __assert(const char* exp, const char* file, s32 line) __THROW;
-#elif defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
+#elif defined(__OpenBSD__)
 void __assert(const char *, int, const char *);
+#elif defined(__FreeBSD__)
+void __assert(const char *, const char *, int, const char *) __dead2;
 #elif !defined(__APPLE__) && !defined(__SWITCH__)
 void __assert(const char* exp, const char* file, s32 line);
 #endif
