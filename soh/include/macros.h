@@ -249,6 +249,8 @@ extern GraphicsContext* __gfxCtx;
 #define ASSERT(expression) (void)((!!(expression)) || (_assert(#expression, __FILE__, (unsigned)(__LINE__)), 0))
 #elif defined(__OpenBSD__)
 #define ASSERT(expression) (void)((!!(expression)) || (__assert(__FILE__, __LINE__,#expression), 0))
+#elif defined(__FreeBSD__)
+#define ASSERT(expression) (void)((!!(expression)) || (__assert(__func__, __FILE__, __LINE__,#expression), 0))
 #else
 #define ASSERT(expression) (void)((!!(expression)) || (__assert(#expression, __FILE__, (unsigned)(__LINE__)), 0))
 #endif
