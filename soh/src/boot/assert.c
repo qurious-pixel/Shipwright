@@ -1,7 +1,7 @@
 #include "global.h"
 
 #ifndef __SWITCH__
-#if defined(__WIIU__) || (__FreeBSD__)
+#if defined(__WIIU__) || defined(__FreeBSD__)
 void _assert(const char* exp, const char* file, s32 line) {
 #elif defined(__OpenBSD__)
 void __assert(const char* exp, int line, const char* file) {
