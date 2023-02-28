@@ -1,12 +1,10 @@
 #include "global.h"
 
 #ifndef __SWITCH__
-#ifdef __WIIU__
+#if defined(__WIIU__) || (__FreeBSD__)
 void _assert(const char* exp, const char* file, s32 line) {
 #elif defined(__OpenBSD__)
 void __assert(const char* exp, int line, const char* file) {
-#elif defined(__FreeBSD__)
-void __assert(const char *, const char *, int, const char *) __dead2 {    
 #else
 void __assert(const char* exp, const char* file, s32 line) {
 #endif
