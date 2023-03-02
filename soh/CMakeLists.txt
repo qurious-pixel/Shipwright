@@ -2178,7 +2178,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
         target_link_options(${PROJECT_NAME} PRIVATE
             -pthread
         )
-    elseif (CMAKE_SYSTEM_NAME MATCHES "NintendoSwitch"|"FreeBSD")
+    elseif (CMAKE_SYSTEM_NAME MATCHES "NintendoSwitch|FreeBSD")
         target_compile_options(${PROJECT_NAME} PRIVATE
             -Wall -Wextra -Wno-error
             -Wno-return-type
