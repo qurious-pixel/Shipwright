@@ -70,6 +70,7 @@ jobs:
         path: soh.otr
         retention-days: 1 
   build-linux:
+    needs: generate-soh-otr
     runs-on: ubuntu-latest
     container:
       image: archlinux:base
