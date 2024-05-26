@@ -30,7 +30,7 @@ jobs:
         mv build-cmake/*.appimage soh.appimage
       env:
         CC: clang
-        CXX: clang++
+        CXX: clang
     - name: Upload build
       uses: actions/upload-artifact@v4
       with:
