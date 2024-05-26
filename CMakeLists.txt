@@ -68,9 +68,9 @@ endif()
 include(CMake/Utils.cmake)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-#    get_linux_lsb_release_information()
-#    message(STATUS "Linux ${LSB_RELEASE_ID_SHORT} ${LSB_RELEASE_VERSION_SHORT} ${LSB_RELEASE_CODENAME_SHORT}")
-#else()
+    get_linux_lsb_release_information()
+    message(STATUS "Linux ${LSB_RELEASE_ID_SHORT} ${LSB_RELEASE_VERSION_SHORT} ${LSB_RELEASE_CODENAME_SHORT}")
+else()
     message(STATUS ${CMAKE_SYSTEM_NAME})
 endif()
 
