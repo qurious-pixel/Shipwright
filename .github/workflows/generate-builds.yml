@@ -9,7 +9,7 @@ jobs:
   generate-soh-otr:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
       with:
         submodules: true
     - name: ccache
@@ -68,46 +68,32 @@ jobs:
       with:
         name: soh.otr
         path: soh.otr
-        retention-days: 1
+        retention-days: 1 
   build-linux:
-    needs: generate-soh-otr
     runs-on: ubuntu-latest
     container:
-      image: alpine:latest
+      image: archlinux:base
     steps:
     - name: Install dependencies
       run: |
-        apk update
-        apk add gcc g++ git make cmake samurai tar glew-dev mesa-gl mesa-dev sdl2-dev libpng-dev libzip-dev nlohmann-json spdlog-dev sdl2_net-dev boost-dev lsb-release-minimal imagemagick python3
-    - name: Install latest tinyxml2
-      run: |
-        wget https://github.com/leethomason/tinyxml2/archive/refs/tags/10.0.0.tar.gz
-        tar -xzf 10.0.0.tar.gz
-        cd tinyxml2-10.0.0
-        mkdir build
-        cd build
-        cmake ..
-        make && make install
-    - uses: actions/checkout@v4
+        pacman -Syu --noconfirm
+        pacman -S --noconfirm clang musl gcc git cmake ninja lsb-release sdl2 libpng libzip nlohmann-json tinyxml2 spdlog sdl2_net boost imagemagick python
+    - uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Download soh.otr
-      uses: actions/download-artifact@v4
-      with:
-        name: soh.otr
     - name: Build SoH
       run: |
         export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
         cmake --no-warn-unused-cli -H. -Bbuild-cmake -GNinja -DCMAKE_BUILD_TYPE:STRING=Release -DBUILD_REMOTE_CONTROL=1
-        #cmake --build build-cmake --config Release --target GenerateSohOtr
+        cmake --build build-cmake --config Release --target GenerateSohOtr
         cmake --build build-cmake --config Release -j3
         (cd build-cmake && cpack -G External)
 
         mv README.md readme.txt
         mv build-cmake/*.appimage soh.appimage
       env:
-        CC: gcc
-        CXX: g++
+        CC: musl-gcc
+        CXX: musl-clang
     - name: Upload build
       uses: actions/upload-artifact@v4
       with:
