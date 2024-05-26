@@ -21,7 +21,7 @@ jobs:
     - name: Build SoH
       run: |
         export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-        cmake --no-warn-unused-cli -H. -Bbuild-cmake -GNinja -DCMAKE_BUILD_TYPE:STRING=Release -DBUILD_REMOTE_CONTROL=1
+        cmake --no-warn-unused-cli -H. -Bbuild-cmake -GNinja -DCMAKE_BUILD_TYPE:STRING=Release -DBUILD_REMOTE_CONTROL=1 -DCMAKE_CXX_FLAGS="-stdlib=libc++"
         cmake --build build-cmake --config Release --target GenerateSohOtr
         cmake --build build-cmake --config Release -j3
         (cd build-cmake && cpack -G External)
@@ -29,8 +29,8 @@ jobs:
         mv README.md readme.txt
         mv build-cmake/*.appimage soh.appimage
       env:
-        CC: clang
-        CXX: clang
+        CC: musl-clang
+        CXX: musl-clang
     - name: Upload build
       uses: actions/upload-artifact@v4
       with:
