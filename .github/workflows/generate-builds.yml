@@ -38,8 +38,8 @@ jobs:
         mv README.md readme.txt
         mv build-cmake/*.appimage soh.appimage
       env:
-        CC: clang
-        CXX: clang++
+        CC: gcc
+        CXX: g++
     - name: Upload build
       uses: actions/upload-artifact@v4
       with:
