@@ -78,7 +78,7 @@ jobs:
     - name: Install dependencies
       run: |
         apk update
-        apk add gcc g++ git cmake samurai sdl2-dev libpng-dev libzip-dev nlohmann-json tinyxml2 spdlog sdl2_net-dev boost-dev imagemagick python3
+        apk add gcc g++ git cmake samurai sdl2-dev libpng-dev libzip-dev nlohmann-json tinyxml2-dev spdlog-dev sdl2_net-dev boost-dev lsb-release-minimal imagemagick python3
     - uses: actions/checkout@v4
       with:
         submodules: true
