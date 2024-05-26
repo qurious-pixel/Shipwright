@@ -162,7 +162,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
         )
     endif()
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(OPENGL REQUIRED opengl)
+    pkg_check_modules(OPENGL REQUIRED gl)
 endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
