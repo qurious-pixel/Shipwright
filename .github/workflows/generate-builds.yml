@@ -70,6 +70,7 @@ jobs:
         path: soh.otr
         retention-days: 1
   build-linux:
+    needs: generate-soh-otr
     runs-on: ubuntu-latest
     container:
       image: alpine:latest
@@ -77,7 +78,7 @@ jobs:
     - name: Install dependencies
       run: |
         apk update
-        apk add gcc git cmake ninja lsb-release sdl2 libpng libzip nlohmann-json tinyxml2 spdlog sdl2_net boost imagemagick python
+        apk add gcc git cmake samurai sdl2-dev libpng libzip nlohmann-json tinyxml2 spdlog sdl2_net imagemagick python3
     - uses: actions/checkout@v4
       with:
         submodules: true
