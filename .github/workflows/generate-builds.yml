@@ -29,8 +29,8 @@ jobs:
         mv README.md readme.txt
         mv build-cmake/*.appimage soh.appimage
       env:
-        CC: musl-gcc
-        CXX: musl-gcc
+        CC: clang
+        CXX: clang++
     - name: Upload build
       uses: actions/upload-artifact@v4
       with:
